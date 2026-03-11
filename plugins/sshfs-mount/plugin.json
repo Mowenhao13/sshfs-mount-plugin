@@ -6,13 +6,13 @@
     "name": "Mowenhao13"
   },
   "commands": [
-    "commands/sshfs-mount-all.md",
-    "commands/sshfs-unmount-all.md",
-    "commands/sshfs-status.md",
-    "commands/sshfs-daemon.md",
-    "commands/sshfs-generate-claude-md.md"
+    "./commands/sshfs-mount-all.md",
+    "./commands/sshfs-unmount-all.md",
+    "./commands/sshfs-status.md",
+    "./commands/sshfs-daemon.md",
+    "./commands/sshfs-generate-claude-md.md"
   ],
   "skills": [
-    "skills/sshfs-mount.skill.md"
+    "./skills/sshfs-mount.skill.md"
   ]
 }
