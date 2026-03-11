@@ -40,7 +40,20 @@ sshfs-mount/
 
 ## 快速开始
 
-### 安装
+### 安装方式
+
+#### 方式 1：通过 Claude Code 安装（推荐）
+
+```bash
+# 克隆或下载项目到任意位置
+git clone <repository-url>
+cd sshfs-mount
+
+# 在 Claude Code 中执行
+/plugins install /path/to/sshfs-mount
+```
+
+#### 方式 2：运行安装脚本
 
 ```bash
 # 克隆或下载项目
@@ -81,7 +94,15 @@ cd sshfs-mount
 
 ## Claude Code Plugin 集成
 
-安装后，在 Claude Code 中可以使用以下命令：
+安装 plugin 后，重启 Claude Code 即可使用以下功能：
+
+### 验证安装
+
+```
+/skills
+```
+
+应该能看到 `sshfs-mount` skill。
 
 ### Skills
 
