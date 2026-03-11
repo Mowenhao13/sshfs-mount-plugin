@@ -1,0 +1,18 @@
+{
+  "name": "sshfs-mount",
+  "description": "SSHFS 远程挂载管理工具 - 挂载/卸载远程目录、守护进程自动重连、生成 CLAUDE.md",
+  "version": "2.0.0",
+  "author": {
+    "name": "Mowenhao13"
+  },
+  "commands": [
+    "./commands/sshfs-mount-all.md",
+    "./commands/sshfs-unmount-all.md",
+    "./commands/sshfs-status.md",
+    "./commands/sshfs-daemon.md",
+    "./commands/sshfs-generate-claude-md.md"
+  ],
+  "skills": [
+    "./skills/sshfs-mount.skill.md"
+  ]
+}
