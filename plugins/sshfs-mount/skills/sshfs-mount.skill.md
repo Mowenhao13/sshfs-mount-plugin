@@ -32,9 +32,9 @@ version: 1.0.0
 
 ## 配置文件位置
 
-- **主配置**: `~/.config/sshfs-mounts/config.yaml`
-- **Profiles**: `~/.config/sshfs-mounts/profiles/`
-- **守护进程日志**: `~/.config/sshfs-mounts/daemon.log`
+- **主配置**: `~/.config/sshfs-mount-plugin/config.yaml`
+- **Profiles**: `~/.config/sshfs-mount-plugin/profiles/`
+- **守护进程日志**: `~/.config/sshfs-mount-plugin/daemon.log`
 
 ## 相关 Commands
 

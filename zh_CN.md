@@ -79,7 +79,7 @@ sshfs-mount init
 ```
 
 初始化会：
-1. 创建配置文件目录 `~/.config/sshfs-mounts/`
+1. 创建配置文件目录 `~/.config/sshfs-mount-plugin/`
 2. 运行交互式向导配置远程主机
 3. 解析现有 SSH 配置自动填充
 
@@ -130,9 +130,9 @@ sshfs-daemon status
 
 ### 配置文件位置
 
-- **主配置**: `~/.config/sshfs-mounts/config.yaml`
-- **Profiles**: `~/.config/sshfs-mounts/profiles/`
-- **守护进程日志**: `~/.config/sshfs-mounts/daemon.log`
+- **主配置**: `~/.config/sshfs-mount-plugin/config.yaml`
+- **Profiles**: `~/.config/sshfs-mount-plugin/profiles/`
+- **守护进程日志**: `~/.config/sshfs-mount-plugin/daemon.log`
 
 ### 配置文件格式
 
@@ -161,7 +161,7 @@ remotes:
 ### Profile 配置示例
 
 ```yaml
-# ~/.config/sshfs-mounts/profiles/work.yaml
+# ~/.config/sshfs-mount-plugin/profiles/work.yaml
 name: work
 description: 工作开发环境
 
@@ -200,7 +200,7 @@ sshfs-daemon stop
 
 # 查看状态和日志
 sshfs-daemon status
-tail -f ~/.config/sshfs-mounts/daemon.log
+tail -f ~/.config/sshfs-mount-plugin/daemon.log
 ```
 
 ## 依赖
@@ -244,7 +244,7 @@ ssh user@host  # 测试 SSH 连接
 
 ```bash
 # 查看守护进程日志
-tail -f ~/.config/sshfs-mounts/daemon.log
+tail -f ~/.config/sshfs-mount-plugin/daemon.log
 ```
 
 ## 支持系统

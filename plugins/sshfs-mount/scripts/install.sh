@@ -7,7 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$SCRIPT_DIR/.."
 INSTALL_DIR="$HOME/.claude/skills/sshfs-mount"
-CONFIG_DIR="$HOME/.config/sshfs-mounts"
+CONFIG_DIR="$HOME/.config/sshfs-mount-plugin"
 
 echo "=============================================="
 echo "SSHFS Mount Manager - Installation"

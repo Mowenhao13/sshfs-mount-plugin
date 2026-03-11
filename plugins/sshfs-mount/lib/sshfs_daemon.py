@@ -12,7 +12,7 @@ from pathlib import Path
 from datetime import datetime
 
 # Configuration paths
-CONFIG_DIR = Path.home() / ".config" / "sshfs-mounts"
+CONFIG_DIR = Path.home() / ".config" / "sshfs-mount-plugin"
 CONFIG_FILE = CONFIG_DIR / "config.yaml"
 PROFILES_DIR = CONFIG_DIR / "profiles"
 ACTIVE_PROFILE_FILE = CONFIG_DIR / "active-profile"

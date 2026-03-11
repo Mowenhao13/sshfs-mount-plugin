@@ -79,7 +79,7 @@ sshfs-mount init
 ```
 
 The initialization will:
-1. Create config directory `~/.config/sshfs-mounts/`
+1. Create config directory `~/.config/sshfs-mount-plugin/`
 2. Run interactive wizard to configure remote hosts
 3. Parse existing SSH config for auto-fill
 
@@ -130,9 +130,9 @@ Use `/sshfs-mount` skill for interactive operations including:
 
 ### File Locations
 
-- **Main Config**: `~/.config/sshfs-mounts/config.yaml`
-- **Profiles**: `~/.config/sshfs-mounts/profiles/`
-- **Daemon Log**: `~/.config/sshfs-mounts/daemon.log`
+- **Main Config**: `~/.config/sshfs-mount-plugin/config.yaml`
+- **Profiles**: `~/.config/sshfs-mount-plugin/profiles/`
+- **Daemon Log**: `~/.config/sshfs-mount-plugin/daemon.log`
 
 ### Configuration Format
 
@@ -161,7 +161,7 @@ remotes:
 ### Profile Example
 
 ```yaml
-# ~/.config/sshfs-mounts/profiles/work.yaml
+# ~/.config/sshfs-mount-plugin/profiles/work.yaml
 name: work
 description: Work development environment
 
@@ -200,7 +200,7 @@ sshfs-daemon stop
 
 # Check status and logs
 sshfs-daemon status
-tail -f ~/.config/sshfs-mounts/daemon.log
+tail -f ~/.config/sshfs-mount-plugin/daemon.log
 ```
 
 ## Dependencies
@@ -244,7 +244,7 @@ ssh user@host  # Test SSH connection
 
 ```bash
 # View daemon logs
-tail -f ~/.config/sshfs-mounts/daemon.log
+tail -f ~/.config/sshfs-mount-plugin/daemon.log
 ```
 
 ## Supported Systems

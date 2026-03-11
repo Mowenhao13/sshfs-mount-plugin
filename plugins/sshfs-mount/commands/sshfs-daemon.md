@@ -65,7 +65,7 @@ sshfs-daemon status
 ```
 Daemon is running (PID: 12345)
 
-Recent log (~/.config/sshfs-mounts/daemon.log):
+Recent log (~/.config/sshfs-mount-plugin/daemon.log):
   [2026-03-11 10:05:00] All mounts healthy
   [2026-03-11 10:05:30] All mounts healthy
 ```
@@ -77,12 +77,12 @@ Recent log (~/.config/sshfs-mounts/daemon.log):
 
 ## 日志位置
 
-守护进程日志文件：`~/.config/sshfs-mounts/daemon.log`
+守护进程日志文件：`~/.config/sshfs-mount-plugin/daemon.log`
 
 ## 查看日志
 
 ```bash
-tail -f ~/.config/sshfs-mounts/daemon.log
+tail -f ~/.config/sshfs-mount-plugin/daemon.log
 ```
 
 ## 相关命令
