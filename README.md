@@ -1,34 +1,41 @@
 # SSHFS Mount Manager
-你是否还在为服务器装不上 Claude Code 而烦恼?
 
-一个通用的 SSHFS 远程挂载管理工具，专为 Claude Code Skills 设计。
-
-## 项目创作动机
-作者在服务器上装了cc 但由于cc连接不上我的coding plan 于是只能通过告知本地的cc通过ssh来连接服务器才可运行 但在同时连接两台远端linux设备时 总是会出现需要反复声明ssh服务器来执行命令的操作 每次都要告知cc仓库所在的文件路径 而且本地由于没有挂载远端仓库 导致每次查看文件 都需要ssh 增加麻烦 当仓库一多时 如果仓库不写CLAUDE.md 就会经常出错 于是这款插件便诞生了 
-
-## 支持系统（macos, linux）
+一个通用的 SSHFS 远程挂载管理工具，专为 Claude Code Plugin 设计。
 
 ## 功能特性
 
 - 🔧 **通用配置** - 支持任意数量的远程主机，每个主机独立配置
 - 📋 **Profile 管理** - 支持多套配置（工作/个人等场景）
 - 🔄 **守护进程** - 自动检测断开并重连
-- 🤖 **Claude Code 集成** - 通过 Skills 提供便捷的挂载管理
+- 🤖 **Claude Code 集成** - 通过 Plugin/Skills 提供便捷的挂载管理
 - 📝 **CLAUDE.md 自动生成** - 为远程目录自动生成使用说明
 
-## 项目结构
+## 项目结构 (v2.0 - Plugin 架构)
 
 ```
 sshfs-mount/
-├── sshfs_mount.py        # 主程序（配置管理、挂载/卸载、初始化向导）
-├── sshfs_daemon.py       # 守护进程（自动重连）
-├── generate_claude_md.py # CLAUDE.md 自动生成器
-├── install.sh            # 安装脚本
-├── create-package.sh     # 创建分发包脚本
-├── README.md             # 本文档
-└── skill/
-    ├── sshfs-mount.md    # Skill 说明文档
-    └── sshfs-mount.sh    # Skill 入口脚本
+├── .claude-plugin/
+│   └── plugin.json              # Plugin 清单文件
+├── skills/
+│   └── sshfs-mount.skill.md     # Skill 定义
+├── commands/
+│   ├── sshfs-status.md          # /sshfs-status 状态检查
+│   ├── sshfs-mount-all.md       # /sshfs-mount-all 挂载所有
+│   ├── sshfs-unmount-all.md     # /sshfs-unmount-all 卸载所有
+│   ├── sshfs-daemon.md          # /sshfs-daemon 守护进程管理
+│   └── sshfs-generate-claude-md.md  # /sshfs-generate-claude-md 生成 CLAUDE.md
+├── lib/
+│   ├── sshfs_mount.py           # 核心逻辑 (配置管理、挂载/卸载)
+│   ├── sshfs_daemon.py          # 守护进程 (自动重连)
+│   └── generate_claude_md.py    # CLAUDE.md 生成器
+├── bin/
+│   ├── sshfs-mount              # 命令行入口
+│   ├── sshfs-daemon             # 守护进程入口
+│   └── sshfs                    # 快速挂载脚本
+├── scripts/
+│   ├── install.sh               # 安装脚本
+│   └── create-package.sh        # 打包脚本
+└── README.md                    # 本文档
 ```
 
 ## 快速开始
@@ -37,17 +44,17 @@ sshfs-mount/
 
 ```bash
 # 克隆或下载项目
-cd cc-sshfs-mount-skills
+cd sshfs-mount
 
 # 运行安装脚本
-./install.sh
+./scripts/install.sh
 ```
 
 ### 首次使用
 
 ```bash
 # 运行初始化向导
-sshfs-mount init
+./bin/sshfs-mount init
 
 # 或从 Claude Code 中
 /sshfs-mount init
@@ -57,20 +64,40 @@ sshfs-mount init
 
 ```bash
 # 查看挂载状态
-sshfs-mount status
+./bin/sshfs-mount status
 
 # 挂载所有远程目录
-sshfs-mount mount
+./bin/sshfs-mount mount
 
 # 卸载所有远程目录
-sshfs-mount unmount
+./bin/sshfs-mount unmount
 
 # 启动守护进程（自动重连）
-sshfs-daemon start
+./bin/sshfs-daemon start
 
 # 查看守护进程状态
-sshfs-daemon status
+./bin/sshfs-daemon status
 ```
+
+## Claude Code Plugin 集成
+
+安装后，在 Claude Code 中可以使用以下命令：
+
+### Skills
+
+- `/sshfs-mount` - 主 Skill，显示可用功能
+
+### Commands
+
+| Command | 功能 |
+|---------|------|
+| `/sshfs-status` | 检查所有远程目录的挂载状态 |
+| `/sshfs-mount-all` | 挂载所有远程目录 |
+| `/sshfs-unmount-all` | 卸载所有远程目录 |
+| `/sshfs-daemon start` | 启动守护进程 |
+| `/sshfs-daemon stop` | 停止守护进程 |
+| `/sshfs-daemon status` | 查看守护进程状态 |
+| `/sshfs-generate-claude-md` | 为已挂载目录生成 CLAUDE.md |
 
 ## 配置文件
 
@@ -78,7 +105,7 @@ sshfs-daemon status
 
 - **主配置**: `~/.config/sshfs-mounts/config.yaml`
 - **Profiles**: `~/.config/sshfs-mounts/profiles/`
-- **日志**: `~/.config/sshfs-mounts/daemon.log`
+- **守护进程日志**: `~/.config/sshfs-mounts/daemon.log`
 
 ### 配置文件格式
 
@@ -88,7 +115,7 @@ local_root: ~/projects
 remotes:
   - name: remote-machine1
     host: ubuntu@172.18.198.243
-    remote_path: ~/projects 
+    remote_path: ~/projects
     local_path: remote-machine1
     ssh_key: ~/.ssh/id_rsa
     ssh_port: 22
@@ -97,7 +124,7 @@ remotes:
       server_alive_interval: 30
 
   - name: remote-machine2
-    host: ubuntu@172.18.166.57
+    host: ubuntu@172.18.166.57:55900
     remote_path: ~/projects
     local_path: remote-machine2
     ssh_key: ~/.ssh/id_rsa
@@ -120,46 +147,32 @@ remotes:
     local_path: remote-prod
 ```
 
-## Claude Code Skills
-
-安装后，在 Claude Code 中使用 `/sshfs-mount` 命令:
-
-```
-/sshfs-mount          # 显示菜单
-/sshfs-mount status   # 检查挂载状态
-/sshfs-mount mount    # 挂载所有
-/sshfs-mount unmount  # 卸载所有
-/sshfs-mount init     # 重新运行初始化向导
-/sshfs-mount profile  # Profile 管理
-/sshfs-mount daemon   # 守护进程管理
-```
-
 ## Profile 管理
 
 ```bash
 # 列出所有 profile
-sshfs-mount profile list
+./bin/sshfs-mount profile list
 
 # 切换到 work profile
-sshfs-mount profile switch work
+./bin/sshfs-mount profile switch work
 ```
 
 ## 守护进程
 
-守护进程每 30 秒检查一次挂载状态，自动重新连接断开的远程目录。
+守护进程每 30 秒（可配置）检查一次挂载状态，自动重新连接断开的远程目录。
 
 ```bash
 # 启动守护进程
-sshfs-daemon start
+./bin/sshfs-daemon start
 
 # 指定检查间隔（秒）
-sshfs-daemon start 60
+./bin/sshfs-daemon start 60
 
 # 停止守护进程
-sshfs-daemon stop
+./bin/sshfs-daemon stop
 
 # 查看状态
-sshfs-daemon status
+./bin/sshfs-daemon status
 ```
 
 ## 依赖
@@ -169,12 +182,10 @@ sshfs-daemon status
 - PyYAML
 
 ### 安装依赖
-> [!NOTE]
-> macos 上的sshfs安装可能有些复杂 需要去查询教程
 
 ```bash
 # macOS
-brew install sshfs 
+brew install sshfs
 pip3 install pyyaml
 
 # Ubuntu/Debian
@@ -183,7 +194,6 @@ sudo apt-get install sshfs python3-yaml
 # Arch Linux
 sudo pacman -S sshfs python-yaml
 ```
-
 
 ## 故障排除
 
@@ -209,4 +219,14 @@ ssh user@host  # 测试 SSH 连接
 tail -f ~/.config/sshfs-mounts/daemon.log
 ```
 
-## 目前win版本尚未开发 欢迎大家contribute！
+## 版本历史
+
+- **v2.0** - 重构为 Claude Code Plugin 架构，新增 commands/ 和 skills/ 目录
+- **v1.0** - 初始版本，基础 SSHFS 挂载管理功能
+
+## 支持系统
+
+- macOS
+- Linux
+
+> **注意**: Windows 版本尚未开发，欢迎贡献！

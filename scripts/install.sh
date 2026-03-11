@@ -1,10 +1,11 @@
 #!/bin/bash
 # SSHFS Mount Manager - Installation Script
-# This script installs the SSHFS Mount Manager skill for Claude Code
+# This script installs the SSHFS Mount Manager plugin for Claude Code
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PLUGIN_DIR="$SCRIPT_DIR/.."
 INSTALL_DIR="$HOME/.claude/skills/sshfs-mount"
 CONFIG_DIR="$HOME/.config/sshfs-mounts"
 
@@ -33,22 +34,21 @@ mkdir -p "$INSTALL_DIR"
 mkdir -p "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR/profiles"
 
-# Copy files
+# Copy files from new plugin structure
 echo "Copying files..."
-cp "$SCRIPT_DIR/sshfs_mount.py" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/sshfs_daemon.py" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/generate_claude_md.py" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/skill/sshfs" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/skill/sshfs-mount.sh" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/skill/sshfs-mount.md" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/skill/SKILL.md" "$INSTALL_DIR/"
+mkdir -p "$INSTALL_DIR/lib"
+mkdir -p "$INSTALL_DIR/bin"
+
+cp "$PLUGIN_DIR/lib/sshfs_mount.py" "$INSTALL_DIR/lib/"
+cp "$PLUGIN_DIR/lib/sshfs_daemon.py" "$INSTALL_DIR/lib/"
+cp "$PLUGIN_DIR/lib/generate_claude_md.py" "$INSTALL_DIR/lib/"
+cp "$PLUGIN_DIR/bin/sshfs-mount" "$INSTALL_DIR/bin/"
+cp "$PLUGIN_DIR/bin/sshfs-daemon" "$INSTALL_DIR/bin/"
+cp "$PLUGIN_DIR/bin/sshfs" "$INSTALL_DIR/bin/"
 
 # Make scripts executable
-chmod +x "$INSTALL_DIR/sshfs_mount.py"
-chmod +x "$INSTALL_DIR/sshfs_daemon.py"
-chmod +x "$INSTALL_DIR/generate_claude_md.py"
-chmod +x "$INSTALL_DIR/sshfs"
-chmod +x "$INSTALL_DIR/sshfs-mount.sh"
+chmod +x "$INSTALL_DIR/lib/"*.py
+chmod +x "$INSTALL_DIR/bin/"*
 
 # Create wrapper script for easy access
 WRAPPER_SCRIPT="$HOME/.local/bin/sshfs-mount"
@@ -56,7 +56,7 @@ mkdir -p "$(dirname "$WRAPPER_SCRIPT")"
 
 cat > "$WRAPPER_SCRIPT" << 'EOF'
 #!/bin/bash
-exec python3 ~/.claude/skills/sshfs-mount/sshfs_mount.py "$@"
+exec python3 "$HOME/.claude/skills/sshfs-mount/bin/sshfs-mount" "$@"
 EOF
 
 chmod +x "$WRAPPER_SCRIPT"
@@ -65,7 +65,7 @@ chmod +x "$WRAPPER_SCRIPT"
 DAEMON_WRAPPER="$HOME/.local/bin/sshfs-daemon"
 cat > "$DAEMON_WRAPPER" << 'EOF'
 #!/bin/bash
-exec python3 ~/.claude/skills/sshfs-mount/sshfs_daemon.py "$@"
+exec python3 "$HOME/.claude/skills/sshfs-mount/bin/sshfs-daemon" "$@"
 EOF
 
 chmod +x "$DAEMON_WRAPPER"
@@ -120,6 +120,6 @@ if [[ ! -f "$CONFIG_DIR/config.yaml" ]] && [[ ! -f "$CONFIG_DIR/profiles/default
     read -p "Run setup wizard now? [Y/n] " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
-        python3 "$INSTALL_DIR/sshfs_mount.py" init
+        python3 "$INSTALL_DIR/bin/sshfs-mount" init
     fi
 fi
