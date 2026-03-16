@@ -27,6 +27,8 @@ sshfs-mount/
 │       │   ├── sshfs-status.md       # /sshfs-status 状态检查
 │       │   ├── sshfs-mount-all.md    # /sshfs-mount-all 挂载所有
 │       │   ├── sshfs-unmount-all.md  # /sshfs-unmount-all 卸载所有
+│       │   ├── sshfs-mount-project.md    # /sshfs-mount-project 挂载指定项目
+│       │   ├── sshfs-unmount-project.md  # /sshfs-unmount-project 卸载指定项目
 │       │   ├── sshfs-daemon.md       # /sshfs-daemon 守护进程管理
 │       │   └── sshfs-generate-claude-md.md  # /sshfs-generate-claude-md 生成 CLAUDE.md
 │       ├── lib/
@@ -93,8 +95,14 @@ sshfs-mount status
 # 挂载所有远程目录
 sshfs-mount mount
 
+# 挂载指定的单个远程目录
+sshfs-mount mount <远程名称>
+
 # 卸载所有远程目录
 sshfs-mount unmount
+
+# 卸载指定的单个远程目录
+sshfs-mount unmount <远程名称>
 
 # 启动守护进程（自动重连）
 sshfs-daemon start
@@ -114,6 +122,8 @@ sshfs-daemon status
 | `/sshfs-status` | 检查所有远程目录的挂载状态 |
 | `/sshfs-mount-all` | 挂载所有远程目录 |
 | `/sshfs-unmount-all` | 卸载所有远程目录 |
+| `/sshfs-mount-project <名称>` | 挂载指定的单个远程目录 |
+| `/sshfs-unmount-project <名称>` | 卸载指定的单个远程目录 |
 | `/sshfs-daemon start` | 启动守护进程 |
 | `/sshfs-daemon stop` | 停止守护进程 |
 | `/sshfs-daemon status` | 查看守护进程状态 |

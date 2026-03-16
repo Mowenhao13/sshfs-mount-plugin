@@ -27,6 +27,8 @@ sshfs-mount/
 │       │   ├── sshfs-status.md       # /sshfs-status status check
 │       │   ├── sshfs-mount-all.md    # /sshfs-mount-all mount all
 │       │   ├── sshfs-unmount-all.md  # /sshfs-unmount-all unmount all
+│       │   ├── sshfs-mount-project.md    # /sshfs-mount-project mount specific remote
+│       │   ├── sshfs-unmount-project.md  # /sshfs-unmount-project unmount specific remote
 │       │   ├── sshfs-daemon.md       # /sshfs-daemon daemon management
 │       │   └── sshfs-generate-claude-md.md  # /sshfs-generate-claude-md generate CLAUDE.md
 │       ├── lib/
@@ -93,8 +95,14 @@ sshfs-mount status
 # Mount all remote directories
 sshfs-mount mount
 
+# Mount a specific remote directory
+sshfs-mount mount <remote-name>
+
 # Unmount all remote directories
 sshfs-mount unmount
+
+# Unmount a specific remote directory
+sshfs-mount unmount <remote-name>
 
 # Start daemon (auto-reconnect)
 sshfs-daemon start
@@ -114,6 +122,8 @@ After installing the plugin, restart Claude Code to use the following features:
 | `/sshfs-status` | Check mount status of all remote directories |
 | `/sshfs-mount-all` | Mount all remote directories |
 | `/sshfs-unmount-all` | Unmount all remote directories |
+| `/sshfs-mount-project <name>` | Mount a specific remote directory by name |
+| `/sshfs-unmount-project <name>` | Unmount a specific remote directory by name |
 | `/sshfs-daemon start` | Start daemon process |
 | `/sshfs-daemon stop` | Stop daemon process |
 | `/sshfs-daemon status` | Check daemon status |
